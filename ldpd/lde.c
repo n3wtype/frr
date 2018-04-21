@@ -683,6 +683,10 @@ lde_update_label(struct fec_node *fn)
 		    AF_INET, (union ldpd_addr *)&fn->fec.u.ipv4.prefix,
 		    fn->fec.u.ipv4.prefixlen) != FILTER_PERMIT)
 			return (NO_LABEL);
+        if (lde_acl_check(ldeconf->ipv4.acl_label_expnull_for,
+            AF_INET, (union ldpd_addr *)&fn->fec.u.ipv4.prefix,
+            fn->fec.u.ipv4.prefixlen) != FILTER_PERMIT)
+            return (MPLS_LABEL_IPV4_EXPLICIT_NULL);
 		break;
 	case FEC_TYPE_IPV6:
 		if ((ldeconf->ipv6.flags & F_LDPD_AF_ALLOCHOSTONLY) &&
@@ -692,6 +696,10 @@ lde_update_label(struct fec_node *fn)
 		    AF_INET6, (union ldpd_addr *)&fn->fec.u.ipv6.prefix,
 		    fn->fec.u.ipv6.prefixlen) != FILTER_PERMIT)
 			return (NO_LABEL);
+        if (lde_acl_check(ldeconf->ipv6.acl_label_expnull_for,
+            AF_INET6, (union ldpd_addr *)&fn->fec.u.ipv6.prefix,
+            fn->fec.u.ipv6.prefixlen) != FILTER_PERMIT)
+            return (MPLS_LABEL_IPV6_EXPLICIT_NULL);
 		break;
 	default:
 		break;
